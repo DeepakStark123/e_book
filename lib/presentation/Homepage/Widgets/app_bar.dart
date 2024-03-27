@@ -1,3 +1,4 @@
+import 'package:e_book/config/app_string.dart';
 import 'package:e_book/config/export.dart';
 import 'package:e_book/controllers/authCubit/auth_cubit.dart';
 import 'package:e_book/presentation/ProfilePage/profile_page.dart';
@@ -23,7 +24,7 @@ class HomeAppBar extends StatelessWidget {
           child: SvgPicture.asset(AppAssets.dashboardIcon),
         ),
         Text(
-          "E-BOOK",
+          AppString.appName.toUpperCase(),
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                 color: Theme.of(context).colorScheme.background,
               ),

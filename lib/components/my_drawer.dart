@@ -1,51 +1,65 @@
 import 'package:e_book/config/export.dart';
+import 'package:e_book/controllers/authCubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
 
-var myDrawer = Drawer(
-  child: ListView(
-    padding: EdgeInsets.zero,
-    children: [
-      UserAccountsDrawerHeader(
-        decoration: const BoxDecoration(
-          color: AppColors.primaryColor,
-        ),
-        accountName: const Text("User Name"),
-        accountEmail: const Text("user@example.com"),
-        currentAccountPicture: CircleAvatar(
-          backgroundImage: AssetImage(AppAssets.userProfileImage),
-        ),
+class MyCustomDrawer extends StatelessWidget {
+  const MyCustomDrawer({super.key, required this.authCubit});
+  final AuthCubit authCubit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          UserAccountsDrawerHeader(
+            decoration: const BoxDecoration(
+              color: AppColors.primaryColor,
+            ),
+            accountName: Text(authCubit.auth.currentUser?.displayName ?? ""),
+            accountEmail: Text(authCubit.auth.currentUser?.email ?? ""),
+            currentAccountPicture: CircleAvatar(
+              backgroundImage:
+                  NetworkImage(authCubit.auth.currentUser?.photoURL ?? ""),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text("Home"),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.book),
+            title: const Text("Browse Books"),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.favorite),
+            title: const Text("Favorites"),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.info),
+            title: const Text("About"),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text("Settings"),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
       ),
-      ListTile(
-        leading: const Icon(Icons.home), // Adding an icon for visual appeal
-        title: const Text("Home"),
-        onTap: () {},
-      ),
-      ListTile(
-        leading:
-            const Icon(Icons.book), // Book icon for the Browse Books section
-        title: const Text("Browse Books"),
-        onTap: () {},
-      ),
-      ListTile(
-        leading: const Icon(Icons.favorite), // Heart icon for Favorites
-        title: const Text("Favorites"),
-        onTap: () {},
-      ),
-      ListTile(
-        leading: const Icon(Icons.info), // Information icon for About
-        title: const Text("About"),
-        onTap: () {},
-      ),
-      ListTile(
-        leading: const Icon(Icons.settings), // Settings icon for Settings
-        title: const Text("Settings"),
-        onTap: () {},
-      ),
-      ListTile(
-        leading: const Icon(Icons.phone), // Phone icon for Call
-        title: const Text("Call"),
-        onTap: () {},
-      ),
-    ],
-  ),
-);
+    );
+  }
+}

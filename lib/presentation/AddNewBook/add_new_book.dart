@@ -11,8 +11,6 @@ class AddNewBookPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TextEditingController bookTitlecontroller = TextEditingController();
-    // PdfController pdfController = Get.put(PdfController());
     BookCubit bookCubit = context.read<BookCubit>();
     return Scaffold(
       body: SingleChildScrollView(

@@ -1,3 +1,5 @@
+import 'package:e_book/config/app_string.dart';
+import 'package:e_book/controllers/authCubit/auth_cubit.dart';
 import 'package:e_book/controllers/bookCubit/book_cubit.dart';
 import 'package:e_book/components/book_card.dart';
 import 'package:e_book/components/book_tile.dart';
@@ -19,11 +21,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late BookCubit bookCubit;
+  late AuthCubit authCubit;
 
   @override
   void initState() {
     super.initState();
     bookCubit = context.read<BookCubit>();
+    authCubit = context.read<AuthCubit>();
     bookCubit.getAllBooks();
     bookCubit.getUserBook();
   }
@@ -31,14 +35,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: myDrawer,
+      drawer: MyCustomDrawer(
+        authCubit: authCubit,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
               color: Theme.of(context).colorScheme.primary,
-              // height: 500,
               child: Row(
                 children: [
                   Expanded(
@@ -50,7 +55,9 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: [
                             Text(
-                              "Good Morining✌️",
+                              authCubit.auth.currentUser?.displayName != null
+                                  ? "Good Morining✌️"
+                                  : "Welcome To",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
@@ -60,16 +67,22 @@ class _HomePageState extends State<HomePage> {
                                         .background,
                                   ),
                             ),
-                            Text(
-                              "Deepak",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium
-                                  ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .background,
-                                  ),
+                            Expanded(
+                              child: Text(
+                                authCubit.auth.currentUser?.displayName != null
+                                    ? "${authCubit.auth.currentUser?.displayName}"
+                                    : AppString.appName,
+                                maxLines: 1,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .background,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                              ),
                             ),
                           ],
                         ),
